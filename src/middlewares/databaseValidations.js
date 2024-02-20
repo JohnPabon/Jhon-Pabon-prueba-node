@@ -1,22 +1,19 @@
 import Producto from "../models/Producto.js"
 
-const barcodeExists = (req,res, next) => {
-    
-    const existProducto = Producto.findOne({
+const barcodeExists = async (barcode ) => {
+    console.log("Este es el campo:   ", barcode)
+    const existProducto = await Producto.findOne({
         where: {
-            barcode: req.body.barcode
+            barcode: barcode
         }
     });
-    console.log(existProducto);
+
+    console.log("Este es el valor:   ", existProducto)
 
 
     if(existProducto){
-        return res.status(400).json({
-            msg: "Ya existe el campo barcode"
-        })
+          throw new Error("Ya existe el campo barcode")
     };
-
-    next();
 };
 
 export { barcodeExists };

@@ -8,7 +8,11 @@ import { barcodeExists } from './../middlewares/databaseValidations.js';
 
 const router = Router();
 
-router.post("/", insertProducto);
+router.post("/",[ 
+  check('nombre').isString().isLength({max: 60}),
+  check('barcode', ['este barcode ya existe']).custom( barcodeExists ),
+  validationData  
+], insertProducto);
 
 
 export default router;
