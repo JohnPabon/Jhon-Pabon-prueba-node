@@ -1,7 +1,8 @@
 import express from 'express';
+import cors from 'cors';
 
 // importaciones de rutas
-
+import ProductoRoutes from './../routes/producto.routes.js';
 class Server{
 
     constructor(){
@@ -9,14 +10,19 @@ class Server{
         this.port = process.env.PORT;
 
         this.pathURL = {
-
-        }
-
+            producto: "/producto"
+        };
+        this.middlewares();
         this.routes();
     }
 
     routes(){
+        this.app.use(this.pathURL.producto, ProductoRoutes);
+    }
 
+    middlewares(){
+        this.app.use(express.json());
+        this.app.use(cors());
     }
 
     listen(){
